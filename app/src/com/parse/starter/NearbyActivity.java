@@ -3,6 +3,8 @@ package com.parse.starter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -16,16 +18,23 @@ public class NearbyActivity extends Activity {
 	// private variables
 	private ParseGeoPoint currentLocation;
 	private GPSTracker gps;
+	private GoogleMap mMap;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.nearby);
+		// gets a handle on the gmap
+		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		// checks if the map is available
+		setUpMapIfNeeded();
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
+		// checks if the map is available
+		setUpMapIfNeeded();
 		gps = new GPSTracker(this);
 		// Get user location and adds entry when done.
 		if (gps.canGetLocation) {
@@ -83,5 +92,17 @@ public class NearbyActivity extends Activity {
 	public double calcDistance(ParseGeoPoint a, ParseGeoPoint b) {
 		// gets the two points and returns the distance between them
 		return Math.abs(Math.sqrt(Math.pow((b.getLatitude() - a.getLatitude()), 2) + Math.pow(b.getLongitude() - a.getLongitude(), 2)));
+	}
+
+	// verifies that the map is available
+	private void setUpMapIfNeeded() {
+	    // Do a null check to confirm that we have not already instantiated the map.
+	    if (mMap == null) {
+	        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+	        // Check if we were successful in obtaining the map.
+	        if (mMap != null) {
+	            // The Map is verified. It is now safe to manipulate the map.
+	        }
+	    }
 	}
 }
