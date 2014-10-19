@@ -6,8 +6,6 @@
 
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -15,6 +13,10 @@
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+ 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+ 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />   
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
  
 <!--
   IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
@@ -22,14 +24,14 @@
 -->
 <permission android:protectionLevel="signature"
     android:name="com.parse.starter.permission.C2D_MESSAGE" />
-<uses-permission android:name="com.parse.hacktx.restroom.permission.C2D_MESSAGE" />
+<uses-permission android:name="com.parse.starter.permission.C2D_MESSAGE" />
 
     <application
         android:name="ParseApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name="com.parse.hacktx.restroom.ParseStarterProjectActivity"
+            android:name="com.parse.starter.UploadActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,7 +63,7 @@
 			    <!--
 			      IMPORTANT: Change "com.parse.starter" to match your app's package name.
 			    -->
-			    <category android:name="com.parse.hacktx.restroom" />
+			    <category android:name="com.parse.starter" />
 			  </intent-filter>
 			</receiver>
     </application>
