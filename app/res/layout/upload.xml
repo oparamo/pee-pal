@@ -6,21 +6,35 @@
     
 <ImageView
     android:id="@+id/Image"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_weight="3"
     android:src="@drawable/ic_launcher"
     android:text="Take Picture"
     android:onClick="onClk_TakePicture"
     />
+
 <TextView 
     android:id="@+id/Location"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_weight="1"
     android:text="Location"
     />
+
+<TableLayout 
+    android:id="@+id/PropTable"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="2"
+    android:layout_gravity="center_horizontal">
+    
+</TableLayout>
+
 <Button
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_weight="1"
     android:text="Submit"
     android:onClick="onClk_SubmitPicture"
     />

@@ -1,12 +1,7 @@
 package com.parse.starter;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import com.parse.LocationCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -15,22 +10,33 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.starter.R;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TableLayout.LayoutParams;
 
+@SuppressLint("NewApi")
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class UploadActivity extends Activity
 {
+	private String [] text = {"Neutral","Male","Female","Baby","Handicap","Family"};
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private ParseGeoPoint mCurrentLocation;
 	private GPSTracker gps;
@@ -38,10 +44,19 @@ public class UploadActivity extends Activity
 	private Bitmap photo; 
 	private byte[]imagebytes;
 	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@SuppressLint("NewApi")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.upload);
 		tv_location = (TextView)findViewById(R.id.Location);
+		populateTable();
+		/*
+		PropertiesFragment pf = new PropertiesFragment();
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		ft.add(R.id.Properties, pf, "Properties");
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		ft.commit();*/
 	}
 	
 	@Override
@@ -60,6 +75,26 @@ public class UploadActivity extends Activity
 	public void onStop() {
 		super.onStart();
 		gps.stopUsingGPS();
+	}
+	
+	private void populateTable() {
+		final int ROWS = 2;
+		final int COLS = 3;
+		int cnt = 0;
+		
+		TableLayout table = (TableLayout) findViewById(R.id.PropTable);
+
+		for (int r = 0; r < ROWS; r++) {
+			TableRow row = new TableRow(this);
+			table.addView(row);			
+			for (int c = 0; c < COLS; c++) {
+				Button btn = new Button(this);
+				//btn.setText(text[cnt]);
+				row.addView(btn);
+			}
+			cnt++;
+		}
+		
 	}
 
 	/** Creates and intent to take a picture and return control to calling 
