@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -12,37 +17,57 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 
 public class NearbyActivity extends Activity {
 	// private variables
-	private ParseGeoPoint currentLocation;
+	private LatLng user;
 	private GPSTracker gps;
 	private GoogleMap mMap;
+	private GoogleMapOptions options = new GoogleMapOptions();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.nearby);
-		// gets a handle on the gmap
+		// makes a gps object, this makes geo functionality easier
+		gps = new GPSTracker(this);
+		// gets the user's location
+		user = new LatLng(gps.getLatitude(), gps.getLongitude());
+		
+		// gets a handle on the map by id
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		// adds a marker at the user's location
+		mMap.addMarker(new MarkerOptions().position(user).title("You"));
+		/* sets the options for the map in order of cameraposition, zoomlevel, tilt, bearing
+		options.mapType(GoogleMap.MAP_TYPE_NORMAL).camera(new CameraPosition(user, 19, 0, 0))
+												  .zoomControlsEnabled(false).zoomGesturesEnabled(true).scrollGesturesEnabled(true);
+		// initializes the map with the options above
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		// Replace the container with the new fragment
+		ft.add(R.id.map, MapFragment.newInstance(options));
+		// Execute the changes specified
+		ft.commit();*/
+		
 		// checks if the map is available
 		setUpMapIfNeeded();
+		findNearby(new ParseGeoPoint(gps.getLatitude(), gps.getLongitude()), 2);
+		System.out.println(gps.getLatitude() + "   " + gps.getLongitude());
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
+		// clears the map
+		mMap.clear();
 		// checks if the map is available
 		setUpMapIfNeeded();
-		gps = new GPSTracker(this);
-		// Get user location and adds entry when done.
-		if (gps.canGetLocation) {
-            currentLocation = new ParseGeoPoint(gps.getLatitude(), gps.getLongitude());
-            findNearby(currentLocation, 2);
-		} else {
-			//throw exception
-		}
+		// adds a marker
+		mMap.addMarker(new MarkerOptions().position(user).title("You"));
+		// Get user location and adds entry when done
+        findNearby(new ParseGeoPoint(gps.getLatitude(), gps.getLongitude()), 2);
 	}
 	
 	@Override
@@ -57,14 +82,18 @@ public class NearbyActivity extends Activity {
 		query.whereWithinMiles("Location", currentLocation, radius);
 		query.findInBackground(new FindCallback<ParseObject>() {
 	        public void done(List<ParseObject> objects, ParseException e) {
-	            if (e == null) {
+	            //if (e == null) {
 	            	// updates the objects list to be sorted by proximity to user
-	            	objects = sortPoints(objects, currentLocation);
-	            	
-	            	
-	            } else {
+	            	//objects = sortPoints(objects, currentLocation);
+	            	// iterates through the objects and puts markers on the map
+	            	for(int i = 0; i < objects.size(); i++) {
+	            		ParseGeoPoint point = (ParseGeoPoint)(objects.get(i).get("Location"));
+	            		LatLng location = new LatLng(point.getLatitude(), point.getLongitude());
+	            		mMap.addMarker(new MarkerOptions().position(location).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+	            	}
+	            /*} else {
 	                //throw exception
-	            }
+	            }*/
 	        }
 		});
 	}
