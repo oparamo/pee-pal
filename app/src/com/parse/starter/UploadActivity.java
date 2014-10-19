@@ -18,7 +18,7 @@ public class UploadActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.upload);
 	}
-	
+	//hello
 	/** Creates and intent to take a picture and return control to calling 
 	  * application. Then starts the intent.
 	  * @param v - view, used by layout */
