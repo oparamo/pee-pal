@@ -61,10 +61,7 @@ public class UploadActivity extends Activity
 		super.onStart();
 		gps.stopUsingGPS();
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 1e4a839531d5a21c8d093ffc57f622953a8fe932
 	/** Creates and intent to take a picture and return control to calling 
 	  * application. Then starts the intent.
 	  * @param v - view, used by layout */
