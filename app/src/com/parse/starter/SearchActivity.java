@@ -24,7 +24,7 @@ public class SearchActivity extends Activity{
     public void searchColumn(String c, String q) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(q);
     	query.whereEqualTo("playerName", "Dan Stemkoski");
-    	query.findInBackground(new FindCallback<ParseObject>() {
+    	/*query.findInBackground(new FindCallback<ParseObject>() {
     	    public void done(List<ParseObject> scoreList, ParseException e) {
     	        if (e == null) {
     	            Log.d("score", "Retrieved " + scoreList.size() + " scores");
@@ -32,6 +32,6 @@ public class SearchActivity extends Activity{
     	            Log.d("score", "Error: " + e.getMessage());
     	        }
     	    }
-    	});
+    	});*/
     }
 }
