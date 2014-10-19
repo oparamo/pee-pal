@@ -43,6 +43,7 @@ public class UploadActivity extends Activity
 	private TextView tv_location;
 	private Bitmap photo; 
 	private byte[]imagebytes;
+	private Context context;
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@SuppressLint("NewApi")
@@ -51,12 +52,13 @@ public class UploadActivity extends Activity
 		setContentView(R.layout.upload);
 		tv_location = (TextView)findViewById(R.id.Location);
 		populateTable();
-		/*
-		PropertiesFragment pf = new PropertiesFragment();
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.add(R.id.Properties, pf, "Properties");
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		ft.commit();*/
+		context = this;
+		
+		Button submit = (Button)findViewById(R.id.submitbutton);
+		submit.setTypeface(MainActivity.font_pacifico);
+		submit.setTextColor(getResources().getColor(R.color.Purple));
+		submit.setTextSize(36);
+		submit.setText("Submit");
 	}
 	
 	@Override
