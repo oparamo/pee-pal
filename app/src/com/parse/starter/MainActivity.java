@@ -14,8 +14,8 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		font_helvetica = Typeface.createFromAsset(getAssets(),"helvetica-neue-light.ttf");
-		font_pacifico = Typeface.createFromAsset(getAssets(),"Pacifico.ttf");
+		//font_helvetica = Typeface.createFromAsset(getAssets(),"helvetica-neue-light.ttf");
+		//font_pacifico = Typeface.createFromAsset(getAssets(),"Pacifico.ttf");
 	}
 
 	/** Navigation methods. */

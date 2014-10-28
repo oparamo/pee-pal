@@ -1,4 +1,0 @@
-INDEX VERSION 1.126+C:\Users\User\Documents\GitHub\hacktxrestroom\.metadata\.plugins\org.eclipse.jdt.core
-1565498373.index
-692719744.index
-1742815150.index
